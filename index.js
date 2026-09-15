@@ -1,6 +1,6 @@
 const http = require('http');
 
-// --- PROSTY SERWER HTTP DLA RENDER (Web Service) ---
+// --- PROSTY SERWER HTTP + AUTO-BUDZIK DLA RENDER ---
 const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('JuniorStudio Bot is running 24/7!');
@@ -10,6 +10,18 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`🌐 Serwer HTTP nasłuchuje na porcie ${PORT}`);
 });
+
+// Auto-pinger zapobiegający uśpieniu na Renderze (co 9 minut)
+setInterval(() => {
+  const appUrl = process.env.RENDER_EXTERNAL_URL;
+  if (appUrl) {
+    http.get(appUrl, (res) => {
+      console.log(`⏰ Pinger wybudził serwer. Status: ${res.statusCode}`);
+    }).on('error', (err) => {
+      console.error('⚠️ Błąd pingera:', err.message);
+    });
+  }
+}, 9 * 60 * 1000);
 
 // --- GŁÓWNY KOD BOTA DISCORDA ---
 require('dotenv').config();
