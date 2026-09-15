@@ -2,12 +2,12 @@ const http = require('http');
 
 // --- PROSTY SERWER HTTP + AUTO-BUDZIK DLA RENDER ---
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
   res.end('JuniorStudio Bot is running 24/7!');
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`🌐 Serwer HTTP nasłuchuje na porcie ${PORT}`);
 });
 
@@ -109,7 +109,7 @@ client.once('ready', async () => {
           .setColor(0x9B59B6)
           .setDescription('Nikt dziś nie napisał żadnej wiadomości!')
           .setTimestamp();
-         
+          
         await channel.send({ embeds: [emptyEmbed] });
         return;
       }
