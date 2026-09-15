@@ -1,3 +1,17 @@
+const http = require('http');
+
+// --- PROSTY SERWER HTTP DLA RENDER (Web Service) ---
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('JuniorStudio Bot is running 24/7!');
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`🌐 Serwer HTTP nasłuchuje na porcie ${PORT}`);
+});
+
+// --- GŁÓWNY KOD BOTA DISCORDA ---
 require('dotenv').config();
 const { 
   Client, 
@@ -45,7 +59,7 @@ function saveData(file, data) {
 function parseDuration(durationStr) {
   const match = durationStr.match(/^(\d+)([mhd])$/);
   if (!match) return null;
-  
+   
   const value = parseInt(match[1]);
   const unit = match[2];
 
@@ -76,14 +90,14 @@ client.once('ready', async () => {
       }
 
       const activityData = loadData(ACTIVITY_FILE);
-      
+       
       if (Object.keys(activityData).length === 0) {
         const emptyEmbed = new EmbedBuilder()
           .setTitle('🏆 Top 5 najbardziej piszących (daily)')
           .setColor(0x9B59B6)
           .setDescription('Nikt dziś nie napisał żadnej wiadomości!')
           .setTimestamp();
-        
+         
         await channel.send({ embeds: [emptyEmbed] });
         return;
       }
@@ -581,7 +595,7 @@ client.on('messageDelete', async (message) => {
       if (deletionLog) {
         const { executor, target, createdTimestamp } = deletionLog;
         const timeAgo = Date.now() - createdTimestamp;
-        
+         
         if (target && target.id === message.author?.id && timeAgo < 5000) {
           deleterText = `<@${executor.id}> (\`${executor.tag}\`)`;
         }
