@@ -2,8 +2,13 @@ const http = require('http');
 
 // --- PROSTY SERWER HTTP + AUTO-BUDZIK DLA RENDER ---
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
-  res.end('JuniorStudio Bot is running 24/7!');
+  if (req.url === '/' || req.url === '') {
+    res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('JuniorStudio Bot is running 24/7!');
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Not Found');
+  }
 });
 
 const PORT = process.env.PORT || 3000;
