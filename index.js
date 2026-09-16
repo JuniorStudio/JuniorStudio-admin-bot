@@ -18,28 +18,26 @@ server.listen(PORT, '0.0.0.0', () => {
 
 // Auto-pinger zapobiegający uśpieniu na Renderze (co 9 minut)
 setInterval(() => {
-  const appUrl = process.env.RENDER_EXTERNAL_URL;
-  if (appUrl) {
-    http.get(appUrl, (res) => {
-      console.log(`⏰ Pinger wybudził serwer. Status: ${res.statusCode}`);
-    }).on('error', (err) => {
-      console.error('⚠️ Błąd pingera:', err.message);
-    });
-  }
+  const appUrl = 'https://juniorstudio-admin-bot.onrender.com';
+  http.get(appUrl, (res) => {
+    console.log(`⏰ Pinger wybudził serwer. Status: ${res.statusCode}`);
+  }).on('error', (err) => {
+    console.error('⚠️ Błąd pingera:', err.message);
+  });
 }, 9 * 60 * 1000);
 
 // --- GŁÓWNY KOD BOTA DISCORDA ---
 require('dotenv').config();
-const { 
-  Client, 
-  GatewayIntentBits, 
-  Partials, 
-  REST, 
-  Routes, 
-  SlashCommandBuilder, 
-  PermissionFlagsBits, 
+const {  
+  Client,  
+  GatewayIntentBits,  
+  Partials,  
+  REST,  
+  Routes,  
+  SlashCommandBuilder,  
+  PermissionFlagsBits,  
   EmbedBuilder,
-  AuditLogEvent 
+  AuditLogEvent  
 } = require('discord.js');
 const fs = require('fs');
 const cron = require('node-cron');
